@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aahaar — Indian Food Nutrition Guide</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero" id="home">
+  <div class="hero-bg">
+    <div class="spice-dot sd1"></div>
+    <div class="spice-dot sd2"></div>
+    <div class="spice-dot sd3"></div>
+    <div class="spice-dot sd4"></div>
+    <div class="grain-overlay"></div>
+  </div>
+  <nav class="navbar">
+    <div class="logo">
+      <span class="logo-deva">आहार</span>
+      <span class="logo-en">Aahaar</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#foods">Foods</a></li>
+      <li><a href="#compare">Compare</a></li>
+      <li><a href="#calculator">Daily Needs</a></li>
+      <li><a href="#tips">Diet Tips</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('foods').scrollIntoView({behavior:'smooth'})">Explore →</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu">☰</button>
+  </nav>
+  <div class="hero-content">
+    <div class="hero-badge">🌿 Your Indian Diet Companion</div>
+    <h1 class="hero-title">
+      Know What's <em>Inside</em><br/>Your Thali
+    </h1>
+    <p class="hero-sub">Detailed nutrition breakdown for 80+ traditional Indian foods — carbs, fats, protein, vitamins, minerals & fibre. Eat smart, live well.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('foods').scrollIntoView({behavior:'smooth'})">Browse Foods</button>
+      <button class="btn-ghost" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">My Daily Needs</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">80+</span><span class="stat-label">Indian Foods</span></div>
+      <div class="stat"><span class="stat-num">7</span><span class="stat-label">Nutrient Groups</span></div>
+      <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Free</span></div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">scroll to explore ↓</div>
+</header>
+
+<!-- CATEGORY FILTER -->
+<section class="filter-section" id="foods">
+  <div class="container">
+    <div class="section-header">
+      <h2>Explore Indian Foods</h2>
+      <p>Click any food to see its complete nutritional profile</p>
+    </div>
+    <div class="search-bar-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search dal, roti, paneer, rice…" autocomplete="off"/>
+      <button class="clear-btn" id="clearSearch" style="display:none">✕</button>
+    </div>
+    <div class="category-pills" id="categoryPills">
+      <button class="pill active" data-cat="all">All</button>
+      <button class="pill" data-cat="grains">Grains & Cereals</button>
+      <button class="pill" data-cat="lentils">Dal & Legumes</button>
+      <button class="pill" data-cat="vegetables">Vegetables</button>
+      <button class="pill" data-cat="dairy">Dairy</button>
+      <button class="pill" data-cat="snacks">Snacks & Street Food</button>
+      <button class="pill" data-cat="sweets">Sweets</button>
+      <button class="pill" data-cat="beverages">Beverages</button>
+      <button class="pill" data-cat="nonveg">Non-Veg</button>
+    </div>
+
+    <div class="food-grid" id="foodGrid"></div>
+    <div class="no-results" id="noResults" style="display:none">
+      <span>😔</span><p>No foods found. Try a different search!</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOD DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="foodModal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-inner" id="modalInner"></div>
+  </div>
+</div>
+
+<!-- COMPARE SECTION -->
+<section class="compare-section" id="compare">
+  <div class="container">
+    <div class="section-header light">
+      <h2>Compare Foods</h2>
+      <p>Select up to 3 foods and compare their nutrients side by side</p>
+    </div>
+    <div class="compare-selects">
+      <div class="compare-slot" id="slot0">
+        <label>Food 1</label>
+        <select id="compareSelect0"><option value="">— Choose food —</option></select>
+      </div>
+      <div class="compare-vs">VS</div>
+      <div class="compare-slot" id="slot1">
+        <label>Food 2</label>
+        <select id="compareSelect1"><option value="">— Choose food —</option></select>
+      </div>
+      <div class="compare-vs">VS</div>
+      <div class="compare-slot" id="slot2">
+        <label>Food 3 (optional)</label>
+        <select id="compareSelect2"><option value="">— Choose food —</option></select>
+      </div>
+    </div>
+    <button class="btn-primary" id="compareBtn">Compare Now</button>
+    <div class="compare-result" id="compareResult"></div>
+  </div>
+</section>
+
+<!-- DAILY NEEDS CALCULATOR -->
+<section class="calculator-section" id="calculator">
+  <div class="container">
+    <div class="section-header">
+      <h2>Your Daily Nutrition Needs</h2>
+      <p>Get personalised daily macronutrient targets based on your body and goals</p>
+    </div>
+    <div class="calc-card">
+      <div class="calc-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Age</label>
+            <input type="number" id="calcAge" placeholder="25" min="10" max="90"/>
+          </div>
+          <div class="form-group">
+            <label>Weight (kg)</label>
+            <input type="number" id="calcWeight" placeholder="65" min="30" max="200"/>
+          </div>
+          <div class="form-group">
+            <label>Height (cm)</label>
+            <input type="number" id="calcHeight" placeholder="165" min="100" max="250"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="calcGender">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Activity Level</label>
+            <select id="calcActivity">
+              <option value="1.2">Sedentary (desk job)</option>
+              <option value="1.375">Lightly active (1-3 days/week)</option>
+              <option value="1.55" selected>Moderately active (3-5 days/week)</option>
+              <option value="1.725">Very active (6-7 days/week)</option>
+              <option value="1.9">Athlete / Physical job</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Goal</label>
+            <select id="calcGoal">
+              <option value="maintain">Maintain Weight</option>
+              <option value="lose">Lose Weight</option>
+              <option value="gain">Gain Muscle</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-primary" id="calcBtn">Calculate My Needs</button>
+      </div>
+      <div class="calc-result" id="calcResult" style="display:none"></div>
+    </div>
+  </div>
+</section>
+
+<!-- DIET TIPS -->
+<section class="tips-section" id="tips">
+  <div class="container">
+    <div class="section-header">
+      <h2>Healthy Eating with Indian Food</h2>
+      <p>Evidence-based tips for building a balanced Indian diet</p>
+    </div>
+    <div class="tips-grid" id="tipsGrid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-logo">
+      <span class="logo-deva">आहार</span>
+      <span class="logo-en">Aahaar</span>
+      <p>Eat with knowledge. Live with vitality.</p>
+    </div>
+    <div class="footer-note">
+      <p>Nutritional values are approximate per 100g / standard serving. Consult a registered dietitian for personalised advice.</p>
+      <p>Data sourced from ICMR-NIN & USDA databases. © 2024 Aahaar</p>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
